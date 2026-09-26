@@ -22,7 +22,7 @@ class SolarDataset(Dataset):
     def __getitem__(self, idx):
         # 1. Grab 'X' (The Input):
         # We take a slice of 48 rows starting at 'idx'
-        # Shape will be [48, 11] -> (48 hours, 11 features)
+        # Shape will be [48, 12] -> (48 hours, 12 features)
         x = self.data[idx : idx + self.window] 
         
         # 2. Grab 'y' (The Target):

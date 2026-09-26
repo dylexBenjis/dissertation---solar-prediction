@@ -27,7 +27,7 @@ def data_splitting(chester_data, lagos_data):
   
   
     # Select only the columns we want (excluding raw HR, MO, DY)
-    columns = ['ALLSKY_SFC_SW_DWN', 'CLOUD_AMT', 'SZA', 'T2M', 'RH2M', 'PS', 'WS2M',
+    columns = ['ALLSKY_SFC_SW_DWN', 'CLRSKY_SFC_SW_DWN', 'CLOUD_AMT', 'SZA', 'T2M', 'RH2M', 'PS', 'WS2M',
                 'Hour_sine', 'Hour_cosine', 'DayOfYear_sine', 'DayOfYear_cosine']
     chester_train = chester_train[columns]
     chester_test = chester_test[columns]

@@ -1,6 +1,6 @@
 '''
 #IN THIS CODE, WE PREPROCESS THE DATASETS TO MAKE THEM READY FOR TRAINING AND EVALUATION.
-#THIS INCLUDE FILTERING NIGHT TIME, CONVERTING HOUR TIME TO COORDINATES (X, Y), AND SCALING/NORMALIZING THE DATA VALUES BETWEEN 0 AND 1.
+#THIS INCLUDE CONVERTING HOUR TIME TO COORDINATES (X, Y), AND SCALING/NORMALIZING THE DATA VALUES BETWEEN 0 AND 1.
 '''
 import numpy as np
 import pandas as pd
@@ -10,13 +10,14 @@ from sklearn.preprocessing import MinMaxScaler
 
 def preprocess(chester_data, lagos_data):
 
+    '''Cyclic Encoding of Time Features.'''
+
     # Convert hour time to coordinates (X, Y) using sine and cosine transformations
     # This allows the model to know exactly where in the day the data point is.
     chester_data['Hour_sine'] = np.sin(2 * np.pi * chester_data['HR'] / 24)
     chester_data['Hour_cosine'] = np.cos(2 * np.pi * chester_data['HR'] / 24)
     lagos_data['Hour_sine'] = np.sin(2 * np.pi * lagos_data['HR'] / 24)
     lagos_data['Hour_cosine'] = np.cos(2 * np.pi * lagos_data['HR'] / 24)
-
     # Convert year, month and day time to coordinates (X, Y) using sine and cosine transformations
     # This allows the model to know exactly where in the year the data point is.
     # We will use the day of the year (1-365) for this transformation.
@@ -32,13 +33,7 @@ def preprocess(chester_data, lagos_data):
     lagos_data['DayOfYear_cosine'] = np.cos(2 * np.pi * lagos_data['DayOfYear'] / 365.25)
 
 
-    # Filter out night time data (where SZA > 90)
-    # This is important because solar radiation values will be zero at night,
-    # including them could affect the model's learning process.
-    # chester_data = chester_data[chester_data['SZA'] < 90]
-    # lagos_data = lagos_data[lagos_data['SZA'] < 90]
-
-
+    '''Normalization/Scaling of Data Values.'''
     # Scale/Normalize the data values between 0 and 1
     scaler = MinMaxScaler()
     data_columns_to_scale = ['CLRSKY_SFC_SW_DWN', 'ALLSKY_SFC_SW_DWN', 'CLOUD_AMT', 'PS', 'RH2M', 'T2M', 'WS2M', 'SZA']
@@ -49,3 +44,4 @@ def preprocess(chester_data, lagos_data):
     # Save the preprocessed datasets
     chester_data.to_csv("preprocessed_chester.csv", index=False)
     lagos_data.to_csv("preprocessed_lagos.csv", index=False)
+    
