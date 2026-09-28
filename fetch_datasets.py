@@ -8,7 +8,7 @@ import pandas as pd
 import io
 
 def fetch_datasets():
-    locations = [(32.929, -95.770, 'chester'), (5, 10, 'lagos')]
+    locations = [(53.19, -2.9, 'chester'), (6.49, 3.39, 'lagos')]
     start_date= "20230101"
     end_date= "20251230"
     
